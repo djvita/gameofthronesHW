@@ -33,7 +33,15 @@
 
 - (void)initController {
     self.lblName.text   = maNames[miCharacterIndex];
-    self.imgUser.image  = [UIImage imageNamed:maImgs[miCharacterIndex]];
+    if ([UIImage imageNamed:maImgs[miCharacterIndex]]== nil) {
+        NSString *cachedFolderPath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+        NSString *cachedImagePath = [cachedFolderPath stringByAppendingPathComponent:maImgs[miCharacterIndex]];
+        self.imgUser.image = [UIImage imageWithData:[NSData dataWithContentsOfFile: cachedImagePath]];
+    }
+    else{
+        self.imgUser.image  = [UIImage imageNamed:maImgs[miCharacterIndex]];
+    }
+    
     self.lblDescription.text = maDescriptions[miCharacterIndex];
 }
 /**********************************************************************************************/

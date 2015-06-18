@@ -125,18 +125,21 @@
     [_txtFAlias resignFirstResponder];
     [_txtFAge resignFirstResponder];
     [_txtVDesc resignFirstResponder];
-    //extern variables
-    sName   = _txtFName.text;
-    sAlias  = _txtFAlias.text;
-    sAge    = _txtFAge.text;
-    sDesc   = _txtVDesc.text;
-    if (_imageView.image != nil){
-        [maImgs addObject:_imageView.image];
-    }
-    [maNames addObject:sName];
-    [maAliases addObject:sAlias];
-    [maAges addObject:sAge];
-    [maDescriptions addObject:sDesc];
+    
+    //populate to the externs
+    [maNames addObject:self.txtFName.text];
+    [maAliases addObject:self.txtFAlias.text];
+    [maAges addObject:self.txtFAge.text];
+    [maDescriptions addObject:self.txtVDesc.text];
+    //save the image in memory
+    NSString *imgName = [self.txtFName.text stringByAppendingString:@".png"];
+    [imgName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    [maImgs addObject:imgName];
+    UIImage *image = self.imageView.image;
+    NSString *cachedFolderPath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+    NSString *cachedImagePath = [cachedFolderPath stringByAppendingPathComponent:imgName];
+    [UIImagePNGRepresentation(image) writeToFile:cachedImagePath atomically:YES];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -144,14 +147,5 @@
      [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)btnSetPressed:(id)sender {
-    [_txtFName resignFirstResponder];
-    [_txtFAlias resignFirstResponder];
-    [_txtFAge resignFirstResponder];
-    [_txtVDesc resignFirstResponder];
-    _labelName.text   = _txtFName.text;
-    _labelAlias.text  = _txtFAlias.text;
-    _labelAge.text    = _txtFAge.text;
-    _lablDesc.text    = _txtVDesc.text;
-}
+
 @end

@@ -35,13 +35,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated // new
+- (void)viewWillAppear:(BOOL)animated // new
 {
     NSLog(@"viewDidAppear");
     [super viewDidAppear:animated];
     
-    [self.tabla reloadData]; // <------------- Prettier way to do this?
-    //[self.tabla refreshRows];
+    [self.tabla reloadData];
 
 }
 //-------------------------------------------------------------------------------
@@ -113,10 +112,19 @@
     cell.lblName.text   = maNames[indexPath.row];
     cell.lblAlias.text  = maAliases[indexPath.row];
     cell.lblAge.text    = maAges[indexPath.row];
-    cell.imgUser.image  = [UIImage imageNamed:maImgs[indexPath.row]];
+    //check if thre arent any images in the cell and load it from memory
+    if ([UIImage imageNamed:maImgs[indexPath.row]]== nil) {
+        NSString *cachedFolderPath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+        NSString *cachedImagePath = [cachedFolderPath stringByAppendingPathComponent:maImgs[indexPath.row]];
+        cell.imgUser.image = [UIImage imageWithData:[NSData dataWithContentsOfFile: cachedImagePath]];
+    }
+    else{
+        cell.imgUser.image  = [UIImage imageNamed:maImgs[indexPath.row]];
+    }
+    
     cell.clipsToBounds  = YES;
     [cell.contentView.superview setClipsToBounds:YES];
-    return cell;
+    
     return cell;
 }
 //-------------------------------------------------------------------------------
