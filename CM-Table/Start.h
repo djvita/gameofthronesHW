@@ -12,5 +12,6 @@
 
 - (IBAction)btnStartPressed:(id)sender;
 
+@property (strong, nonatomic) IBOutlet UITableView *tabla;
 @end
 

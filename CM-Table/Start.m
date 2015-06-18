@@ -34,6 +34,16 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)viewDidAppear:(BOOL)animated // new
+{
+    NSLog(@"viewDidAppear");
+    [super viewDidAppear:animated];
+    
+    [self.tabla reloadData]; // <------------- Prettier way to do this?
+    //[self.tabla refreshRows];
+
+}
 //-------------------------------------------------------------------------------
 -(void)initController {
     //Initialize arrays
@@ -116,13 +126,6 @@
     CharacterDetails *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CharacterDetails"];
     
     [self presentViewController:viewController animated:YES completion:nil];
-    
-    
-    
-    
-    
-    //[tableView reloadData];
-    //[self presentViewController:addChar animated:YES completion:nil];
 
 }
 
